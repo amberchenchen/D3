@@ -1,0 +1,45 @@
+﻿
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<div id="loader">rendering...</div>
+<div id="parent"></div>
+
+<script>
+      loader = document.getElementById('loader');
+
+      $.getJSON("../Scripts/D3Scripts/build/data.json?d=7", function (data) {
+        var nodes = data[0]
+          , links = data[1]
+          , el = document.getElementById("parent")
+          , options = {
+              width: screen.width,
+              height: screen.height,
+              colors: { "666": "red" }
+            };
+
+        graph = new Insights(el, nodes, links, options)
+          .filter({ cluster: 666, size: [500, null] })
+          .zoom(.85)
+          .focus({ text: "color" }, { in: 1 })
+          .center()
+          .render();
+
+        graph.on('rendered', function() {
+          loader.remove();
+        })
+
+        graph.on("node:click", function(d) {
+          console.log("click", d);
+        });
+
+        graph.on("node:mouseover", function(d, offset) {
+          console.log("mouseover", d, offset);
+        });
+
+        graph.on("node:mouseout", function(d, offset) {
+          console.log("mouseout", d, offset);
+        });
+
+        graph.tooltip("<div>cluster: {{cluster}}</div><div>word: {{text}}</div><div>count: {{count}}</div><div>Size: {{size}}</div>");
+      });
+</script>

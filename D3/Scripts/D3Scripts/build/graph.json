@@ -1,0 +1,46 @@
+﻿{
+  "nodes": [
+    {
+      "id": 1,
+      "group": 1,
+      "name": "Facebook"
+    },
+    {
+      "id": 2,
+      "name": "microsoft",
+      "group": 2
+    },
+    {
+      "id": 3,
+      "name": "google",
+      "group": 1
+    },
+    {
+      "id": 4,
+      "name": "apple",
+      "group": 2
+    }
+  ],
+  "links": [
+    {
+      "source": 1,
+      "target": 2,
+      "value": 1
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "value": 8
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "value": 10
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "value": 6
+    }
+  ]
+}

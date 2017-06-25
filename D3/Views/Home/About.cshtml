@@ -1,0 +1,86 @@
+﻿
+<br />
+<div ng-app="myApp" ng-controller="myCtrl">
+<p>cluster: <input type="text" ng-model="cluster"></p>
+<p>CircleName: <input type="text" ng-model="circleName"></p>
+<button ng-click="filterFunc()">Click me!</button>
+
+</div>
+
+<div id="loader">rendering...</div>
+<div id="container"></div>
+
+<script>
+    var nodes = [
+    {
+        id: 1,
+        text: "apple",
+        size: 8,
+        cluster: 5
+    },
+    {
+        id: 2,
+        text: "google",
+        size: 8,
+        cluster: 2
+    },
+    {
+        id: 3,
+        text: "microsoft",
+        size: 8,
+        cluster: 1
+    },
+    {
+        id: 4,
+        text: "Facebook",
+        size: 8,
+        cluster: 1
+    }
+    ];
+
+    var links = [
+        [1, 2], // [ source.id, target.id ]
+        [2, 3],
+        [1, 3],
+        [4, 1],
+        [1,4],
+        [4, 2],
+        [3,4]
+    ];
+
+    //options = {
+    //    colors: { "5": "green" ,"2":"red"}
+    //};
+
+    var el = document.getElementById("container");
+    var graph = new Insights(el, nodes, links).render();
+    
+    graph.on("rendered", function () {
+        $("#loader").remove();
+    });
+
+    graph.on("node:click", function (d) {
+        console.log("click", d);
+    });
+
+    graph.on("node:contextmenu", function (d) {
+        alert(d.text);
+    });
+
+    graph.tooltip("<div>word: {{text}}</div><div>count: {{count}}</div><div>Size: {{size}}</div><div>cluster: {{cluster}}</div>");
+   // graph.d3Path.attr("stroke", "#333333")
+    graph.PathTooltip("<div>Between: {{text}}</div>");
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope) {
+        $scope.filterFunc = function () {
+            var filterParam = {
+                cluster: $scope.cluster,
+                text: $scope.circleName
+            }
+
+            graph.filter(filterParam).update();
+        }
+    });
+
+</script>
